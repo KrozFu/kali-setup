@@ -6,6 +6,7 @@ set -e # Stop at my error
 TOOLS=(
     gdb
     dirsearch
+    docker.io
 )
 
 echo "🔍 Checking and install necesary tools..."
@@ -25,6 +26,12 @@ for tool in "${TOOLS[@]}"; do
     else
         echo "💾 Installing '$tool'..."
         sudo apt install -y "$tool"
+        # Special handling for Docker
+        if [ "$tool" = "docker.io" ]; then
+            echo "🐳 Enabling Docker service..."
+            sudo systemctl enable docker --now
+            echo "✅ Docker service enabled."
+        fi
     fi
 done
 

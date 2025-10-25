@@ -72,17 +72,7 @@ chsh -s "$ZSH_PATH" "$USERNAME"
 # Fix ownership of home directory
 chown -R "$USERNAME:$USERNAME" "/home/$USERNAME"
 
-# Install Docker
-if ! command -v docker &>/dev/null; then
-	echo "🐳 Installing Docker..."
-	apt install -y docker.io
-	systemctl enable docker --now
-	echo "✅ Docker installed and enabled."
-else
-	echo "✅ Docker already installed."
-fi
-
-# Add user to docker group
+# Add user to docker group (assuming Docker is installed via programs.sh)
 usermod -aG docker "$USERNAME"
 echo "🔗 User '$USERNAME' added to the docker group."
 
