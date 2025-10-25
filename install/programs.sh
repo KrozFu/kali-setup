@@ -2,6 +2,9 @@
 
 set -e # Stop at my error
 
+# Variables
+USERNAME="krozfu"
+
 # List to tools to install
 TOOLS=(
     gdb
@@ -31,6 +34,13 @@ for tool in "${TOOLS[@]}"; do
             echo "🐳 Enabling Docker service..."
             sudo systemctl enable docker --now
             echo "✅ Docker service enabled."
+            # Add user to docker group
+            if getent group docker >/dev/null; then
+                sudo usermod -aG docker "$USERNAME"
+                echo "🔗 User '$USERNAME' added to the docker group."
+            else
+                echo "ℹ️ Docker group not found, skipping..."
+            fi
         fi
     fi
 done
